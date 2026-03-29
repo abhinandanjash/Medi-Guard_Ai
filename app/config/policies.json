@@ -1,0 +1,207 @@
+{
+  "policies": [
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_LUMBAR_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Lumbar Spine",
+      "cpt_codes": ["72148"],
+      "condition_keywords": ["back pain", "lumbar", "sciatica", "radiculopathy", "disc herniation", "spinal stenosis", "lumbago"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before imaging", "min_weeks": 4},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions completed", "min_sessions": 6},
+        {"id": "R003", "type": "medication_trial", "description": "At least one medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy requirements", "red_flags": ["cauda equina syndrome", "progressive neurological deficit", "saddle anesthesia", "bowel dysfunction", "bladder dysfunction", "unexplained weight loss", "fever with back pain", "history of cancer", "IV drug use", "recent trauma", "night pain", "bilateral leg weakness"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_CERVICAL_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Cervical Spine",
+      "cpt_codes": ["72141"],
+      "condition_keywords": ["neck pain", "cervical", "cervicalgia", "whiplash"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before cervical imaging", "min_weeks": 4},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions", "min_sessions": 4},
+        {"id": "R003", "type": "medication_trial", "description": "At least one medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["cervical myelopathy", "progressive neurological deficit", "bilateral arm weakness", "loss of coordination", "history of cancer", "recent trauma"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_KNEE_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Knee",
+      "cpt_codes": ["73721"],
+      "condition_keywords": ["knee pain", "knee", "acl", "meniscus", "patellofemoral", "knee effusion", "knee swelling"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before knee MRI", "min_weeks": 2},
+        {"id": "R002", "type": "medication_trial", "description": "Conservative treatment trial required", "required": true},
+        {"id": "R003", "type": "red_flag_override", "description": "Red flags bypass conservative treatment", "red_flags": ["locked knee", "acute trauma", "inability to bear weight", "joint instability", "suspected fracture", "knee dislocation"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_SHOULDER_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Shoulder",
+      "cpt_codes": ["73221"],
+      "condition_keywords": ["shoulder pain", "rotator cuff", "shoulder impingement", "frozen shoulder", "adhesive capsulitis"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before shoulder MRI", "min_weeks": 4},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions", "min_sessions": 4},
+        {"id": "R003", "type": "medication_trial", "description": "At least one medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["acute trauma", "shoulder dislocation", "suspected fracture", "complete loss of motion", "history of cancer"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_HIP_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Hip",
+      "cpt_codes": ["73721"],
+      "condition_keywords": ["hip pain", "hip", "avascular necrosis", "hip fracture", "trochanteric bursitis"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before hip MRI", "min_weeks": 4},
+        {"id": "R002", "type": "medication_trial", "description": "Conservative treatment trial required", "required": true},
+        {"id": "R003", "type": "red_flag_override", "description": "Red flags bypass conservative treatment", "red_flags": ["suspected fracture", "avascular necrosis", "acute trauma", "inability to bear weight", "history of cancer"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_BRAIN_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "MRI Brain",
+      "cpt_codes": ["70553"],
+      "condition_keywords": ["headache", "migraine", "seizure", "epilepsy", "stroke", "tia", "dizziness", "vertigo", "multiple sclerosis", "brain"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration or failed treatment before brain MRI", "min_weeks": 4},
+        {"id": "R002", "type": "medication_trial", "description": "At least one medication trial required", "required": true},
+        {"id": "R003", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["worst headache of life", "thunderclap headache", "new seizure", "focal neurological deficit", "sudden onset", "loss of consciousness", "vision loss", "slurred speech", "sudden weakness", "papilledema", "history of cancer"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "CT_GENERAL_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "CT Scan",
+      "cpt_codes": ["70450", "72125", "72131", "74150", "71250"],
+      "condition_keywords": ["ct scan", "ct head", "ct abdomen", "ct chest"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration before CT", "min_weeks": 2},
+        {"id": "R002", "type": "red_flag_override", "description": "Red flags allow immediate CT", "red_flags": ["acute trauma", "suspected fracture", "loss of consciousness", "chest pain with shortness of breath", "sudden onset", "blood in stool", "blood in urine", "acute abdomen"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "SURGERY_JOINT_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "Joint Surgery",
+      "cpt_codes": ["27447", "27130", "29881", "29826", "23412"],
+      "condition_keywords": ["knee replacement", "hip replacement", "arthroscopy", "rotator cuff repair"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum conservative management before surgery", "min_weeks": 12},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum PT sessions before surgical authorization", "min_sessions": 12},
+        {"id": "R003", "type": "medication_trial", "description": "Failed medication trials required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass conservative management", "red_flags": ["acute fracture", "joint dislocation", "locked joint", "complete tendon rupture", "acute ligament tear with instability"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "SPINE_SURGERY_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "Spine Surgery",
+      "cpt_codes": ["22612", "63047", "63030"],
+      "condition_keywords": ["spinal fusion", "laminectomy", "discectomy"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum conservative management before spine surgery", "min_weeks": 12},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum PT sessions completed", "min_sessions": 12},
+        {"id": "R003", "type": "medication_trial", "description": "Multiple medication trials required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass conservative management", "red_flags": ["cauda equina syndrome", "progressive neurological deficit", "saddle anesthesia", "bowel dysfunction", "bladder dysfunction"]}
+      ]
+    },
+    {
+      "payer": "Generic Insurance",
+      "policy_id": "OFFICE_VISIT_V1",
+      "effective_date": "2024-01-01",
+      "version": "1.0.0",
+      "procedure": "Office Visit",
+      "cpt_codes": ["99213", "99214", "99215"],
+      "condition_keywords": ["diabetes", "hypertension", "asthma", "copd", "depression", "anxiety", "obesity", "hypothyroidism", "gout", "arthritis", "fibromyalgia"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Documented symptoms required", "min_weeks": 1},
+        {"id": "R002", "type": "red_flag_override", "description": "Acute conditions bypass duration requirement", "red_flags": ["chest pain", "shortness of breath", "loss of consciousness", "severe pain", "acute onset"]}
+      ]
+    },
+    {
+      "payer": "Blue Cross Blue Shield",
+      "policy_id": "MRI_LUMBAR_BCBS_V1",
+      "effective_date": "2024-03-01",
+      "version": "1.1.0",
+      "procedure": "MRI Lumbar Spine",
+      "cpt_codes": ["72148"],
+      "condition_keywords": ["back pain", "lumbar", "sciatica", "radiculopathy", "disc herniation", "spinal stenosis"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration", "min_weeks": 6},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions", "min_sessions": 8},
+        {"id": "R003", "type": "medication_trial", "description": "Medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["cauda equina syndrome", "progressive neurological deficit", "saddle anesthesia", "bowel dysfunction", "bladder dysfunction", "unexplained weight loss", "fever with back pain", "history of cancer", "night pain"]}
+      ]
+    },
+    {
+      "payer": "Blue Cross Blue Shield",
+      "policy_id": "MRI_KNEE_BCBS_V1",
+      "effective_date": "2024-03-01",
+      "version": "1.0.0",
+      "procedure": "MRI Knee",
+      "cpt_codes": ["73721"],
+      "condition_keywords": ["knee pain", "knee", "acl", "meniscus"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum duration before knee MRI", "min_weeks": 3},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum PT sessions", "min_sessions": 4},
+        {"id": "R003", "type": "medication_trial", "description": "Conservative treatment required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["locked knee", "acute trauma", "inability to bear weight", "joint instability"]}
+      ]
+    },
+    {
+      "payer": "Aetna",
+      "policy_id": "MRI_LUMBAR_AETNA_V1",
+      "effective_date": "2024-06-01",
+      "version": "1.0.0",
+      "procedure": "MRI Lumbar Spine",
+      "cpt_codes": ["72148"],
+      "condition_keywords": ["back pain", "lumbar", "sciatica", "radiculopathy", "disc herniation", "spinal stenosis"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration", "min_weeks": 4},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions", "min_sessions": 4},
+        {"id": "R003", "type": "medication_trial", "description": "Medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["cauda equina syndrome", "progressive neurological deficit", "saddle anesthesia", "bowel dysfunction", "bladder dysfunction", "history of cancer", "recent trauma"]}
+      ]
+    },
+    {
+      "payer": "Aetna",
+      "policy_id": "MRI_SHOULDER_AETNA_V1",
+      "effective_date": "2024-06-01",
+      "version": "1.0.0",
+      "procedure": "MRI Shoulder",
+      "cpt_codes": ["73221"],
+      "condition_keywords": ["shoulder pain", "rotator cuff", "shoulder impingement"],
+      "rules": [
+        {"id": "R001", "type": "duration", "description": "Minimum symptom duration", "min_weeks": 3},
+        {"id": "R002", "type": "pt_sessions", "description": "Minimum physical therapy sessions", "min_sessions": 4},
+        {"id": "R003", "type": "medication_trial", "description": "Medication trial required", "required": true},
+        {"id": "R004", "type": "red_flag_override", "description": "Red flags bypass step therapy", "red_flags": ["acute trauma", "shoulder dislocation", "suspected fracture"]}
+      ]
+    }
+  ]
+}

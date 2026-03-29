@@ -1,0 +1,890 @@
+{
+  "scenario_1_strong_case": {
+    "timestamp": "2026-03-29T06:15:44.235886+00:00",
+    "pipeline_version": "1.0.0",
+    "request": {
+      "clinical_note": "Patient is a 45-year-old male presenting with chronic low back pain for 8 weeks.\nPain radiates to the left leg with numbness and tingling.  Patient has completed\n10 sessions of physical therapy with minimal improvement.  Tried ibuprofen 800mg\nTID for 4 weeks and cyclobenzaprine 10mg QHS for 3 weeks without significant relief.\nPatient reports progressive weakness in left foot (L5 distribution).  Requesting\nMRI lumbar spine to evaluate for disc herniation or spinal stenosis.",
+      "payer": "Generic Insurance",
+      "requested_procedure": null
+    },
+    "extraction": {
+      "symptoms": [
+        "low back pain",
+        "back pain",
+        "numbness",
+        "tingling",
+        "weakness",
+        "spinal stenosis",
+        "disc herniation",
+        "pain"
+      ],
+      "duration_weeks": 8,
+      "treatments_tried": [
+        "ibuprofen",
+        "cyclobenzaprine",
+        "physical therapy"
+      ],
+      "pt_sessions": 10,
+      "medications": [
+        "ibuprofen",
+        "cyclobenzaprine"
+      ],
+      "red_flags": [
+        "progressive weakness"
+      ],
+      "requested_procedure": "MRI Lumbar Spine"
+    },
+    "code_mapping": {
+      "icd10_code": "M54.50",
+      "icd10_description": "Low back pain, unspecified",
+      "cpt_code": "72148",
+      "cpt_description": "MRI lumbar spine without contrast",
+      "mapping_method": "hardcoded_lookup"
+    },
+    "policy_evaluation": {
+      "payer": "Generic Insurance",
+      "policy_id": "MRI_LUMBAR_V1",
+      "policy_version": "1.0.0",
+      "effective_date": "2024-01-01",
+      "all_rules_passed": true,
+      "red_flag_override": false,
+      "rule_results": [
+        {
+          "rule_id": "R001",
+          "rule_type": "duration",
+          "description": "Minimum symptom duration before imaging",
+          "passed": true,
+          "detail": "Required \u22654 weeks, found 8",
+          "required_value": "4 weeks",
+          "actual_value": "8 weeks"
+        },
+        {
+          "rule_id": "R002",
+          "rule_type": "pt_sessions",
+          "description": "Minimum physical therapy sessions completed",
+          "passed": true,
+          "detail": "Required \u22656 sessions, found 10",
+          "required_value": "6 sessions",
+          "actual_value": "10 sessions"
+        },
+        {
+          "rule_id": "R003",
+          "rule_type": "medication_trial",
+          "description": "At least one medication trial required",
+          "passed": true,
+          "detail": "Medications found: ibuprofen, cyclobenzaprine",
+          "required_value": "At least 1 medication trial",
+          "actual_value": "2 medications"
+        },
+        {
+          "rule_id": "R004",
+          "rule_type": "red_flag_override",
+          "description": "Red flags bypass step therapy requirements",
+          "passed": true,
+          "detail": "No red flags detected.  Standard step therapy applies.",
+          "required_value": "Any qualifying red flag",
+          "actual_value": "None"
+        }
+      ]
+    },
+    "evidence_graph": {
+      "nodes": [
+        {
+          "id": "N001",
+          "label": "Symptom: low back pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N002",
+          "label": "Symptom: back pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N003",
+          "label": "Symptom: numbness",
+          "node_type": "fact"
+        },
+        {
+          "id": "N004",
+          "label": "Symptom: tingling",
+          "node_type": "fact"
+        },
+        {
+          "id": "N005",
+          "label": "Symptom: weakness",
+          "node_type": "fact"
+        },
+        {
+          "id": "N006",
+          "label": "Symptom: spinal stenosis",
+          "node_type": "fact"
+        },
+        {
+          "id": "N007",
+          "label": "Symptom: disc herniation",
+          "node_type": "fact"
+        },
+        {
+          "id": "N008",
+          "label": "Symptom: pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N009",
+          "label": "Duration: 8 weeks",
+          "node_type": "fact"
+        },
+        {
+          "id": "N010",
+          "label": "PT Sessions: 10",
+          "node_type": "fact"
+        },
+        {
+          "id": "N011",
+          "label": "Medication: ibuprofen",
+          "node_type": "fact"
+        },
+        {
+          "id": "N012",
+          "label": "Medication: cyclobenzaprine",
+          "node_type": "fact"
+        },
+        {
+          "id": "N013",
+          "label": "Red Flag: progressive weakness",
+          "node_type": "fact"
+        },
+        {
+          "id": "N014",
+          "label": "ICD-10: M54.50 (Low back pain, unspecified)",
+          "node_type": "code"
+        },
+        {
+          "id": "N015",
+          "label": "CPT: 72148 (MRI lumbar spine without contrast)",
+          "node_type": "code"
+        },
+        {
+          "id": "N016",
+          "label": "Rule R001: Minimum symptom duration before imaging",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N017",
+          "label": "Rule R002: Minimum physical therapy sessions completed",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N018",
+          "label": "Rule R003: At least one medication trial required",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N019",
+          "label": "Rule R004: Red flags bypass step therapy requirements",
+          "node_type": "policy_clause"
+        }
+      ],
+      "edges": [
+        {
+          "source": "N001",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N002",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N003",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N004",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N005",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N006",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N007",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N008",
+          "target": "N014",
+          "relation": "supports"
+        },
+        {
+          "source": "N009",
+          "target": "N016",
+          "relation": "supports"
+        },
+        {
+          "source": "N016",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N010",
+          "target": "N017",
+          "relation": "supports"
+        },
+        {
+          "source": "N017",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N011",
+          "target": "N018",
+          "relation": "supports"
+        },
+        {
+          "source": "N012",
+          "target": "N018",
+          "relation": "supports"
+        },
+        {
+          "source": "N018",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N013",
+          "target": "N019",
+          "relation": "supports"
+        },
+        {
+          "source": "N019",
+          "target": "N015",
+          "relation": "supports"
+        }
+      ]
+    },
+    "denial_simulation": {
+      "denial_likely": false,
+      "denial_reasons": [],
+      "estimated_denial_probability": 0.05
+    },
+    "decision": {
+      "status": "SUBMISSION_READY",
+      "readiness_score": 99,
+      "summary": "All policy requirements satisfied.  Claim is ready for submission."
+    },
+    "remediation": {
+      "actions": [],
+      "estimated_score_after_remediation": 95
+    },
+    "evidence_completeness": {
+      "completeness_score": 1.0,
+      "missing_evidence": []
+    },
+    "red_team_report": {
+      "challenges": [],
+      "overall_risk": "low"
+    }
+  },
+  "scenario_2_weak_case": {
+    "timestamp": "2026-03-29T06:15:44.236652+00:00",
+    "pipeline_version": "1.0.0",
+    "request": {
+      "clinical_note": "Patient complains of back pain for 2 weeks. No prior treatment attempted.\nWants an MRI. No medications tried.",
+      "payer": "Blue Cross Blue Shield",
+      "requested_procedure": null
+    },
+    "extraction": {
+      "symptoms": [
+        "back pain",
+        "pain"
+      ],
+      "duration_weeks": 2,
+      "treatments_tried": [],
+      "pt_sessions": null,
+      "medications": [],
+      "red_flags": [],
+      "requested_procedure": "MRI Lumbar Spine"
+    },
+    "code_mapping": {
+      "icd10_code": "M54.50",
+      "icd10_description": "Low back pain, unspecified",
+      "cpt_code": "72148",
+      "cpt_description": "MRI lumbar spine without contrast",
+      "mapping_method": "hardcoded_lookup"
+    },
+    "policy_evaluation": {
+      "payer": "Blue Cross Blue Shield",
+      "policy_id": "MRI_LUMBAR_BCBS_V1",
+      "policy_version": "1.1.0",
+      "effective_date": "2024-03-01",
+      "all_rules_passed": false,
+      "red_flag_override": false,
+      "rule_results": [
+        {
+          "rule_id": "R001",
+          "rule_type": "duration",
+          "description": "Minimum symptom duration",
+          "passed": false,
+          "detail": "Required \u22656 weeks, found 2",
+          "required_value": "6 weeks",
+          "actual_value": "2 weeks"
+        },
+        {
+          "rule_id": "R002",
+          "rule_type": "pt_sessions",
+          "description": "Minimum physical therapy sessions",
+          "passed": false,
+          "detail": "Required \u22658 sessions, found NOT DOCUMENTED",
+          "required_value": "8 sessions",
+          "actual_value": "Not documented"
+        },
+        {
+          "rule_id": "R003",
+          "rule_type": "medication_trial",
+          "description": "Medication trial required",
+          "passed": false,
+          "detail": "No medication trial documented",
+          "required_value": "At least 1 medication trial",
+          "actual_value": "None"
+        },
+        {
+          "rule_id": "R004",
+          "rule_type": "red_flag_override",
+          "description": "Red flags bypass step therapy",
+          "passed": true,
+          "detail": "No red flags detected.  Standard step therapy applies.",
+          "required_value": "Any qualifying red flag",
+          "actual_value": "None"
+        }
+      ]
+    },
+    "evidence_graph": {
+      "nodes": [
+        {
+          "id": "N001",
+          "label": "Symptom: back pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N002",
+          "label": "Symptom: pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N003",
+          "label": "Duration: 2 weeks",
+          "node_type": "fact"
+        },
+        {
+          "id": "N004",
+          "label": "ICD-10: M54.50 (Low back pain, unspecified)",
+          "node_type": "code"
+        },
+        {
+          "id": "N005",
+          "label": "CPT: 72148 (MRI lumbar spine without contrast)",
+          "node_type": "code"
+        },
+        {
+          "id": "N006",
+          "label": "Rule R001: Minimum symptom duration",
+          "node_type": "violation"
+        },
+        {
+          "id": "N007",
+          "label": "Rule R002: Minimum physical therapy sessions",
+          "node_type": "violation"
+        },
+        {
+          "id": "N008",
+          "label": "Rule R003: Medication trial required",
+          "node_type": "violation"
+        },
+        {
+          "id": "N009",
+          "label": "Rule R004: Red flags bypass step therapy",
+          "node_type": "policy_clause"
+        }
+      ],
+      "edges": [
+        {
+          "source": "N001",
+          "target": "N004",
+          "relation": "supports"
+        },
+        {
+          "source": "N002",
+          "target": "N004",
+          "relation": "supports"
+        },
+        {
+          "source": "N003",
+          "target": "N006",
+          "relation": "violates"
+        },
+        {
+          "source": "N006",
+          "target": "N005",
+          "relation": "violates"
+        },
+        {
+          "source": "N007",
+          "target": "N005",
+          "relation": "missing"
+        },
+        {
+          "source": "N007",
+          "target": "N005",
+          "relation": "violates"
+        },
+        {
+          "source": "N008",
+          "target": "N005",
+          "relation": "missing"
+        },
+        {
+          "source": "N008",
+          "target": "N005",
+          "relation": "violates"
+        },
+        {
+          "source": "N009",
+          "target": "N005",
+          "relation": "supports"
+        }
+      ]
+    },
+    "denial_simulation": {
+      "denial_likely": true,
+      "denial_reasons": [
+        {
+          "code": "DEN-DUR-001",
+          "category": "Insufficient Duration",
+          "reason": "Clinical documentation does not demonstrate adequate conservative management duration.  Policy requires minimum 6 weeks of symptoms; documentation shows 2 weeks.",
+          "severity": "high",
+          "payer_language": "The requested service is denied as the clinical information submitted does not meet the minimum symptom duration threshold required prior to advanced imaging per policy guidelines."
+        },
+        {
+          "code": "DEN-PT-001",
+          "category": "Incomplete Physical Therapy",
+          "reason": "Insufficient physical therapy documentation.  Policy requires 8 sessions; documentation shows Not documented.",
+          "severity": "high",
+          "payer_language": "Authorization is denied.  The member has not completed the required course of physical therapy as outlined in the step-therapy protocol.  Please resubmit once the minimum PT requirement has been met."
+        },
+        {
+          "code": "DEN-MED-001",
+          "category": "No Medication Trial Documented",
+          "reason": "No documented medication trial found.  Payer requires at least one conservative pharmacological intervention before approving imaging.",
+          "severity": "critical",
+          "payer_language": "The request is denied due to absence of documented pharmacological management.  Step-therapy requirements mandate at least one trial of conservative medication (e.g., NSAIDs, muscle relaxants) prior to authorization of advanced diagnostic imaging."
+        }
+      ],
+      "estimated_denial_probability": 0.95
+    },
+    "decision": {
+      "status": "HARD_BLOCK",
+      "readiness_score": 13,
+      "summary": "Insufficient documentation and unmet requirements.  Submission at this time would almost certainly be denied."
+    },
+    "remediation": {
+      "actions": [
+        {
+          "priority": 1,
+          "category": "Conservative Management Duration",
+          "action": "Continue conservative management for at least 4 more week(s) to meet the 6-week minimum requirement.  Document symptom persistence at each follow-up visit.",
+          "impact": "+12 readiness points (estimated)",
+          "estimated_time": "4 weeks"
+        },
+        {
+          "priority": 2,
+          "category": "Physical Therapy Completion",
+          "action": "Complete 8 additional physical therapy session(s) to meet the 8-session minimum.  Ensure PT notes document functional progress or lack thereof.",
+          "impact": "+15 readiness points (estimated)",
+          "estimated_time": "8 week(s) at 1 session/week"
+        },
+        {
+          "priority": 3,
+          "category": "Pharmacological Trial",
+          "action": "Initiate and document at least one trial of conservative medication (e.g., NSAIDs such as ibuprofen or naproxen, or muscle relaxants).  Document the medication name, dosage, duration, and patient response.",
+          "impact": "+20 readiness points (estimated)",
+          "estimated_time": "2-4 weeks for adequate trial"
+        },
+        {
+          "priority": 4,
+          "category": "Documentation Gap",
+          "action": "Document missing required field: pt_sessions",
+          "impact": "+15 readiness points (estimated)",
+          "estimated_time": "Immediate (documentation update)"
+        },
+        {
+          "priority": 5,
+          "category": "Documentation Gap",
+          "action": "Document missing required field: medications",
+          "impact": "+15 readiness points (estimated)",
+          "estimated_time": "Immediate (documentation update)"
+        }
+      ],
+      "estimated_score_after_remediation": 100
+    },
+    "evidence_completeness": {
+      "completeness_score": 0.5,
+      "missing_evidence": [
+        {
+          "field": "pt_sessions",
+          "importance": "required",
+          "impact_on_score": 15
+        },
+        {
+          "field": "medications",
+          "importance": "required",
+          "impact_on_score": 15
+        },
+        {
+          "field": "treatments_tried",
+          "importance": "recommended",
+          "impact_on_score": 5
+        }
+      ]
+    },
+    "red_team_report": {
+      "challenges": [
+        {
+          "challenge": "Evidence completeness is only 50%.  Missing fields create opportunity for payer to request additional information, delaying authorization.",
+          "severity": "high",
+          "recommendation": "Fill all required documentation fields before submission.  Missing evidence is the easiest ground for denial."
+        },
+        {
+          "challenge": "Only 2 weeks of symptoms documented.  This is below typical conservative management thresholds.  A reviewer will question why imaging is being sought this early.",
+          "severity": "high",
+          "recommendation": "If early imaging is clinically warranted, document specific escalation triggers (worsening symptoms, functional decline)."
+        }
+      ],
+      "overall_risk": "high"
+    }
+  },
+  "scenario_3_red_flag": {
+    "timestamp": "2026-03-29T06:15:44.237136+00:00",
+    "pipeline_version": "1.0.0",
+    "request": {
+      "clinical_note": "Patient is a 52-year-old female with acute onset low back pain for 1 week.\nPresenting with saddle anesthesia and new-onset bladder dysfunction.\nUnable to control urination since yesterday.  Progressive bilateral leg weakness\nnoted on exam.  Urgent MRI lumbar spine requested to rule out cauda equina syndrome.",
+      "payer": "Aetna",
+      "requested_procedure": null
+    },
+    "extraction": {
+      "symptoms": [
+        "low back pain",
+        "back pain",
+        "weakness",
+        "pain"
+      ],
+      "duration_weeks": 1,
+      "treatments_tried": [],
+      "pt_sessions": null,
+      "medications": [],
+      "red_flags": [
+        "cauda equina",
+        "saddle anesthesia",
+        "bladder dysfunction",
+        "bilateral leg weakness"
+      ],
+      "requested_procedure": "MRI Lumbar Spine"
+    },
+    "code_mapping": {
+      "icd10_code": "M54.50",
+      "icd10_description": "Low back pain, unspecified",
+      "cpt_code": "72148",
+      "cpt_description": "MRI lumbar spine without contrast",
+      "mapping_method": "hardcoded_lookup"
+    },
+    "policy_evaluation": {
+      "payer": "Aetna",
+      "policy_id": "MRI_LUMBAR_AETNA_V1",
+      "policy_version": "1.0.0",
+      "effective_date": "2024-06-01",
+      "all_rules_passed": true,
+      "red_flag_override": true,
+      "rule_results": [
+        {
+          "rule_id": "R001",
+          "rule_type": "duration",
+          "description": "Minimum symptom duration",
+          "passed": true,
+          "detail": "Required \u22654 weeks, found 1  [OVERRIDDEN BY RED FLAG]",
+          "required_value": "4 weeks",
+          "actual_value": "1 weeks"
+        },
+        {
+          "rule_id": "R002",
+          "rule_type": "pt_sessions",
+          "description": "Minimum physical therapy sessions",
+          "passed": true,
+          "detail": "Required \u22654 sessions, found NOT DOCUMENTED  [OVERRIDDEN BY RED FLAG]",
+          "required_value": "4 sessions",
+          "actual_value": "Not documented"
+        },
+        {
+          "rule_id": "R003",
+          "rule_type": "medication_trial",
+          "description": "Medication trial required",
+          "passed": true,
+          "detail": "No medication trial documented  [OVERRIDDEN BY RED FLAG]",
+          "required_value": "At least 1 medication trial",
+          "actual_value": "None"
+        },
+        {
+          "rule_id": "R004",
+          "rule_type": "red_flag_override",
+          "description": "Red flags bypass step therapy",
+          "passed": true,
+          "detail": "Red flags detected: cauda equina, saddle anesthesia, bladder dysfunction.  Step therapy bypassed.",
+          "required_value": "Any qualifying red flag",
+          "actual_value": "cauda equina, saddle anesthesia, bladder dysfunction"
+        }
+      ]
+    },
+    "evidence_graph": {
+      "nodes": [
+        {
+          "id": "N001",
+          "label": "Symptom: low back pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N002",
+          "label": "Symptom: back pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N003",
+          "label": "Symptom: weakness",
+          "node_type": "fact"
+        },
+        {
+          "id": "N004",
+          "label": "Symptom: pain",
+          "node_type": "fact"
+        },
+        {
+          "id": "N005",
+          "label": "Duration: 1 weeks",
+          "node_type": "fact"
+        },
+        {
+          "id": "N006",
+          "label": "Red Flag: cauda equina",
+          "node_type": "fact"
+        },
+        {
+          "id": "N007",
+          "label": "Red Flag: saddle anesthesia",
+          "node_type": "fact"
+        },
+        {
+          "id": "N008",
+          "label": "Red Flag: bladder dysfunction",
+          "node_type": "fact"
+        },
+        {
+          "id": "N009",
+          "label": "Red Flag: bilateral leg weakness",
+          "node_type": "fact"
+        },
+        {
+          "id": "N010",
+          "label": "ICD-10: M54.50 (Low back pain, unspecified)",
+          "node_type": "code"
+        },
+        {
+          "id": "N011",
+          "label": "CPT: 72148 (MRI lumbar spine without contrast)",
+          "node_type": "code"
+        },
+        {
+          "id": "N012",
+          "label": "Rule R001: Minimum symptom duration",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N013",
+          "label": "Rule R002: Minimum physical therapy sessions",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N014",
+          "label": "Rule R003: Medication trial required",
+          "node_type": "policy_clause"
+        },
+        {
+          "id": "N015",
+          "label": "Rule R004: Red flags bypass step therapy",
+          "node_type": "policy_clause"
+        }
+      ],
+      "edges": [
+        {
+          "source": "N001",
+          "target": "N010",
+          "relation": "supports"
+        },
+        {
+          "source": "N002",
+          "target": "N010",
+          "relation": "supports"
+        },
+        {
+          "source": "N003",
+          "target": "N010",
+          "relation": "supports"
+        },
+        {
+          "source": "N004",
+          "target": "N010",
+          "relation": "supports"
+        },
+        {
+          "source": "N005",
+          "target": "N012",
+          "relation": "supports"
+        },
+        {
+          "source": "N012",
+          "target": "N011",
+          "relation": "supports"
+        },
+        {
+          "source": "N013",
+          "target": "N011",
+          "relation": "missing"
+        },
+        {
+          "source": "N013",
+          "target": "N011",
+          "relation": "supports"
+        },
+        {
+          "source": "N014",
+          "target": "N011",
+          "relation": "missing"
+        },
+        {
+          "source": "N014",
+          "target": "N011",
+          "relation": "supports"
+        },
+        {
+          "source": "N006",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N007",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N008",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N009",
+          "target": "N015",
+          "relation": "supports"
+        },
+        {
+          "source": "N015",
+          "target": "N011",
+          "relation": "supports"
+        }
+      ]
+    },
+    "denial_simulation": {
+      "denial_likely": false,
+      "denial_reasons": [
+        {
+          "code": "DEN-ESC-001",
+          "category": "Weak Clinical Escalation",
+          "reason": "Symptom duration is very short, suggesting premature escalation to advanced imaging without adequate conservative management.",
+          "severity": "medium",
+          "payer_language": "Clinical documentation suggests the request for imaging may be premature.  Additional conservative management is recommended."
+        }
+      ],
+      "estimated_denial_probability": 0.05
+    },
+    "decision": {
+      "status": "SUBMISSION_READY",
+      "readiness_score": 87,
+      "summary": "Red flags detected \u2014 step therapy requirements bypassed.  Submission is recommended with urgency documentation."
+    },
+    "remediation": {
+      "actions": [
+        {
+          "priority": 1,
+          "category": "Documentation Gap",
+          "action": "Document missing required field: pt_sessions",
+          "impact": "+15 readiness points (estimated)",
+          "estimated_time": "Immediate (documentation update)"
+        },
+        {
+          "priority": 2,
+          "category": "Documentation Gap",
+          "action": "Document missing required field: medications",
+          "impact": "+15 readiness points (estimated)",
+          "estimated_time": "Immediate (documentation update)"
+        }
+      ],
+      "estimated_score_after_remediation": 95
+    },
+    "evidence_completeness": {
+      "completeness_score": 0.5,
+      "missing_evidence": [
+        {
+          "field": "pt_sessions",
+          "importance": "required",
+          "impact_on_score": 15
+        },
+        {
+          "field": "medications",
+          "importance": "required",
+          "impact_on_score": 15
+        },
+        {
+          "field": "treatments_tried",
+          "importance": "recommended",
+          "impact_on_score": 5
+        }
+      ]
+    },
+    "red_team_report": {
+      "challenges": [
+        {
+          "challenge": "Decision relies on red flag override to bypass 3 failed rule(s).  A medical reviewer may challenge whether the documented red flags truly qualify for expedited authorization.",
+          "severity": "medium",
+          "recommendation": "Ensure red flag documentation is explicit and supported by objective clinical findings (e.g., neurological exam results)."
+        },
+        {
+          "challenge": "Evidence completeness is only 50%.  Missing fields create opportunity for payer to request additional information, delaying authorization.",
+          "severity": "high",
+          "recommendation": "Fill all required documentation fields before submission.  Missing evidence is the easiest ground for denial."
+        },
+        {
+          "challenge": "Only 1 weeks of symptoms documented.  This is below typical conservative management thresholds.  A reviewer will question why imaging is being sought this early.",
+          "severity": "high",
+          "recommendation": "If early imaging is clinically warranted, document specific escalation triggers (worsening symptoms, functional decline)."
+        }
+      ],
+      "overall_risk": "high"
+    }
+  }
+}
