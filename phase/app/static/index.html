@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Medi-Guard AI — AI-powered denial-proofing for healthcare claims">
+    <title>Medi-Guard AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- ═══ Ambient background ═══ -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ═══ Header ═══ -->
+    <header id="app-header">
+        <div class="header-inner">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="28" height="28" rx="8" fill="url(#logo-grad)" opacity="0.15"/>
+                        <path d="M16 6L26 12V20L16 26L6 20V12L16 6Z" stroke="url(#logo-grad)" stroke-width="1.5" fill="none"/>
+                        <circle cx="16" cy="16" r="4" fill="url(#logo-grad)"/>
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32">
+                                <stop stop-color="#6366f1"/>
+                                <stop offset="1" stop-color="#06b6d4"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="header-titles">
+                    <h1>Medi-Guard AI</h1>
+                    <div class="subtitle">AI Medical Adjudication</div>
+                </div>
+            </div>
+            <div class="header-status">
+                <span class="status-dot"></span>
+                <span>System Online</span>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-main">
+
+        <!-- ═══ LOGIN VIEW ═══ -->
+        <section id="view-login" class="glass-card view-section active-view">
+            <div class="card-header" style="text-align: center; margin-bottom: 2rem;">
+                <h2>System Access</h2>
+                <p>Select your portal to continue</p>
+            </div>
+            
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="switchLoginTab('doctor')">Doctor</button>
+                <button class="login-tab" onclick="switchLoginTab('insurer')">Insurer</button>
+                <button class="login-tab" onclick="switchLoginTab('patient')">Patient</button>
+            </div>
+
+            <!-- Doctor Login -->
+            <div id="login-doctor" class="login-form active-form">
+                <div class="form-group">
+                    <label>Doctor Name</label>
+                    <input type="text" id="doc-name" placeholder="Dr. John Smith">
+                </div>
+                <div class="form-group">
+                    <label>License Number</label>
+                    <input type="password" id="doc-license" placeholder="MD-12345">
+                </div>
+                <button class="btn btn-primary full-width" onclick="handleLogin('doctor')">Doctor Login</button>
+                <p class="login-toggle" onclick="handleRegister('doctor')">Register new Doctor</p>
+            </div>
+
+            <!-- Insurer Login -->
+            <div id="login-insurer" class="login-form">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" id="ins-company" placeholder="Generic Insurance">
+                </div>
+                <div class="form-group">
+                    <label>Access Code</label>
+                    <input type="password" id="ins-pass" placeholder="******">
+                </div>
+                <button class="btn btn-primary full-width" onclick="handleLogin('insurer')">Insurer Login</button>
+                <p class="login-toggle" onclick="handleRegister('insurer')">Register new Insurer</p>
+            </div>
+
+            <!-- Patient Login -->
+            <div id="login-patient" class="login-form">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="text" id="pat-mobile" placeholder="555-0101">
+                </div>
+                <button class="btn btn-primary full-width" onclick="handleLogin('patient')">Patient Login</button>
+                <p class="login-toggle" onclick="handleRegister('patient')">Register new Patient</p>
+            </div>
+        </section>
+
+        <!-- ═══ PATIENT VIEW ═══ -->
+        <section id="view-patient" class="view-section">
+            <div class="glass-card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <div class="card-icon">👤</div>
+                    <div>
+                        <h2>Patient Portal</h2>
+                        <p>Welcome, <span id="pat-welcome-name"></span></p>
+                        <div class="patient-code-badge">Patient Code: <strong id="pat-code-display">---</strong></div>
+                    </div>
+                    <button class="btn btn-ghost" style="margin-left: auto;" onclick="logout()">Logout</button>
+                </div>
+            </div>
+            
+            <div class="glass-card">
+                <h3>My Reports & Claims</h3>
+                <div id="patient-reports-list" class="reports-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ INSURER VIEW ═══ -->
+        <section id="view-insurer" class="view-section">
+            <div class="glass-card" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <div class="card-icon">🏛️</div>
+                    <div style="flex-grow: 1;">
+                        <h2>Insurer Portal</h2>
+                        <p>Search claims by Patient Code</p>
+                    </div>
+                    <button class="btn btn-ghost" onclick="logout()">Logout</button>
+                </div>
+                
+                <div class="form-grid" style="align-items: end;">
+                    <div class="form-group" style="flex-grow: 1;">
+                        <label>Patient Code</label>
+                        <input type="text" id="search-pat-code" placeholder="PT-XXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" onclick="searchInsurerReports()">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insurer-results-container" class="hidden">
+                 <div class="glass-card" style="margin-bottom: 1rem;">
+                     <h3>Results for: <span id="ins-search-name"></span></h3>
+                 </div>
+                 <div id="insurer-reports-list" class="reports-list">
+                     <!-- Populated by JS -->
+                 </div>
+            </div>
+        </section>
+
+        <!-- ═══ DOCTOR VIEW ═══ -->
+        <section id="view-doctor" class="view-section">
+            <div class="dashboard-header" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <div class="patient-code-badge">Doctor Portal - <span id="doc-welcome-name"></span></div>
+                <button class="btn btn-ghost" onclick="logout()">Logout</button>
+            </div>
+
+            <!-- INPUT PANEL -->
+            <section id="input-panel" class="glass-card">
+                <div class="card-header">
+                    <div class="card-icon">📋</div>
+                    <div>
+                        <h2>Create New Report</h2>
+                        <p>Evaluate clinical documentation against payer policies</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <!-- New Patient Fields -->
+                    <div class="form-group">
+                        <label for="patient-name">Patient Name</label>
+                        <input type="text" id="patient-name" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="patient-mobile">Patient Mobile Number</label>
+                        <input type="text" id="patient-mobile" placeholder="555-0101">
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="clinical-note">Clinical Note</label>
+                        <textarea id="clinical-note" rows="8" placeholder="Paste the clinical note here..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payer-select">Insurance Payer</label>
+                        <select id="payer-select">
+                            <option value="">Loading payers...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="procedure-input">Requested Procedure (optional)</label>
+                        <input type="text" id="procedure-input" placeholder="e.g., MRI Lumbar Spine">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button id="btn-sample-pass" class="btn btn-ghost" onclick="loadSample('pass')">
+                        <span>📄</span> Strong Case
+                    </button>
+                    <button id="btn-sample-fail" class="btn btn-ghost" onclick="loadSample('fail')">
+                        <span>📄</span> Weak Case
+                    </button>
+                    <button id="btn-sample-red" class="btn btn-ghost" onclick="loadSample('redflag')">
+                        <span>🚩</span> Red Flag
+                    </button>
+                    <button id="btn-evaluate" class="btn btn-primary" onclick="evaluate()">
+                        <span class="btn-loader" id="btn-loader"></span>
+                        <span id="btn-text">⚡ Run Pre-Adjudication</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- RESULTS -->
+            <div id="results-container" class="hidden">
+
+                <!-- Patient Code Banner -->
+                <div id="patient-code-alert" class="glass-card" style="margin-bottom: 2rem; border: 1px solid var(--primary-color); display: none; background: rgba(99, 102, 241, 0.05);">
+                    <h3 style="color: var(--primary-light); margin-bottom: 0.5rem;">✅ Report Linked Successfully</h3>
+                    <p style="margin-bottom: 1rem; color: var(--gray-400);">Provide this unique Patient Code to the patient or insurer so they can track the status.</p>
+                    <div class="patient-code-badge" style="font-size: 1.25rem;">Patient Code: <strong id="doc-patient-code-display" style="color: white;">---</strong></div>
+                </div>
+
+                <!-- Decision Banner -->
+                <section id="decision-banner" class="glass-card decision-card">
+                    <div class="decision-grid">
+                        <div class="decision-status-block">
+                            <div class="decision-badge" id="decision-badge">—</div>
+                            <p class="decision-summary" id="decision-summary"></p>
+                        </div>
+                        <div class="score-ring-container">
+                            <svg class="score-ring" viewBox="0 0 120 120">
+                                <circle class="score-ring-bg" cx="60" cy="60" r="52"/>
+                                <circle class="score-ring-fill" id="score-ring-fill" cx="60" cy="60" r="52"
+                                    stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+                            </svg>
+                            <div class="score-value" id="score-value">0</div>
+                            <div class="score-label">Readiness</div>
+                        </div>
+                        <div class="decision-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Policy</span>
+                                <span class="meta-value" id="meta-policy">—</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Payer</span>
+                                <span class="meta-value" id="meta-payer">—</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Denial Risk</span>
+                                <span class="meta-value" id="meta-denial-prob">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tabs -->
+                <div class="tab-bar" id="tab-bar">
+                    <button class="tab active" data-tab="extraction" onclick="switchTab('extraction')">
+                        🔬 Extraction
+                    </button>
+                    <button class="tab" data-tab="codes" onclick="switchTab('codes')">
+                        🏷️ Codes
+                    </button>
+                    <button class="tab" data-tab="policy" onclick="switchTab('policy')">
+                        📜 Policy
+                    </button>
+                    <button class="tab" data-tab="denials" onclick="switchTab('denials')">
+                        ⛔ Denials
+                    </button>
+                    <button class="tab" data-tab="remediation" onclick="switchTab('remediation')">
+                        🔧 Remediation
+                    </button>
+                    <button class="tab" data-tab="redteam" onclick="switchTab('redteam')">
+                        🛡️ Red Team
+                    </button>
+                    <button class="tab" data-tab="audit" onclick="switchTab('audit')">
+                        📑 Audit
+                    </button>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="tab-panels">
+
+                    <!-- Extraction -->
+                    <section id="tab-extraction" class="tab-panel glass-card active">
+                        <h3>Extracted Clinical Facts</h3>
+                        <div class="extraction-grid" id="extraction-grid"></div>
+                    </section>
+
+                    <!-- Codes -->
+                    <section id="tab-codes" class="tab-panel glass-card">
+                        <h3>Deterministic Code Mapping</h3>
+                        <div class="codes-display" id="codes-display"></div>
+                    </section>
+
+                    <!-- Policy -->
+                    <section id="tab-policy" class="tab-panel glass-card">
+                        <h3>Policy Rule Evaluation</h3>
+                        <div id="policy-rules"></div>
+                    </section>
+
+                    <!-- Denials -->
+                    <section id="tab-denials" class="tab-panel glass-card">
+                        <h3>Denial Simulation</h3>
+                        <div id="denial-results"></div>
+                    </section>
+
+                    <!-- Remediation -->
+                    <section id="tab-remediation" class="tab-panel glass-card">
+                        <h3>Remediation Plan</h3>
+                        <div id="remediation-plan"></div>
+                    </section>
+
+                    <!-- Red Team -->
+                    <section id="tab-redteam" class="tab-panel glass-card">
+                        <h3>Red Team Adversarial Review</h3>
+                        <div id="redteam-results"></div>
+                    </section>
+
+                    <!-- Audit -->
+                    <section id="tab-audit" class="tab-panel glass-card">
+                        <h3>Full Audit Trace</h3>
+                        <div class="audit-actions">
+                            <button class="btn btn-ghost" onclick="copyAudit()">📋 Copy JSON</button>
+                            <button class="btn btn-ghost" onclick="downloadAudit()">💾 Download</button>
+                        </div>
+                        <pre class="audit-json" id="audit-json"></pre>
+                    </section>
+                </div>
+
+                <!-- Evidence Graph -->
+                <section id="evidence-section" class="glass-card">
+                    <h3>📊 Evidence Graph</h3>
+                    <div class="graph-container" id="graph-container">
+                        <canvas id="graph-canvas"></canvas>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Medi-Guard AI &middot; Neuro-Symbolic Architecture &middot; v1.0.0</p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://unpkg.com/3d-force-graph"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
