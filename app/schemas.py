@@ -35,6 +35,15 @@ class ReportRequest(BaseModel):
     payer: str
     requested_procedure: Optional[str] = None
 
+class SubmitReportResponse(BaseModel):
+    success: bool
+    report_id: Optional[int] = None
+    patient_code: Optional[str] = None
+    error: Optional[str] = None
+
+class AdjudicationRequest(BaseModel):
+    report_id: int
+
 # ── Internal Engine Schemas ────────────────────────────────────
 
 

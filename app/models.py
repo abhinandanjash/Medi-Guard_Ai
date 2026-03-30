@@ -30,7 +30,7 @@ class Report(Base):
     payer = Column(String)
     
     # Engine outputs
-    decision_status = Column(String)
+    decision_status = Column(String, default="SUBMITTED")
     readiness_score = Column(Integer)
     audit_json = Column(Text) # Stored as JSON string
     created_at = Column(String, default=lambda: datetime.datetime.now().isoformat())

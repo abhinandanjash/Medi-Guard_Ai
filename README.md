@@ -1,5 +1,5 @@
-# Medi-Guard_Ai
-Prior Auth Engine
+<div align="center">
+  
 # 🛡️ Medi-Guard AI
 
 **The Neuro-Symbolic Prior Authorization & Pre-Adjudication Engine**
